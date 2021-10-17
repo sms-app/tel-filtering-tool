@@ -7,7 +7,9 @@ pipeline {
 	        }
         }
         stage('Maven Unit Test case') {
-           sh 'mvn clean install'
+        	steps {
+	            sh 'mvn clean install'
+	        }
         }
     }
 }
