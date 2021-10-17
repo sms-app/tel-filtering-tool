@@ -18,8 +18,8 @@ pipeline {
         }
         stage('Tag and Push Docker Image into Dockerhub') {
            steps {
-               echo 'docker tag tel-filtering-tool:latest dineshgngwr/tel-filtering-tool:latest'
-               echo 'docker push dineshgngwr/tel-filtering-tool:latest'
+               echo 'docker tag tel-filtering-tool:latest docker.io/dineshgngwr/tel-filtering-tool:latest'
+               echo 'docker push docker.io/dineshgngwr/tel-filtering-tool:latest'
                echo 'Image pushed successfully.......'
            }
         }
