@@ -13,13 +13,13 @@ pipeline {
         }
         stage('Build Docker Image') {
            steps {
-               echo 'docker build -t tel-filtering-tool'
+               echo 'docker build -t tel-filtering-tool .'
            }
         }
         stage('Tag and Push Docker Image into Dockerhub') {
            steps {
-               echo 'docker tag tel-filtering-tool:latest docker.io/dineshgngwr/docker-spring-boot-app:latest'
-               echo 'docker push docker.io/dineshgngwr/docker-spring-boot-app:latest'
+               echo 'docker tag tel-filtering-tool:latest dineshgngwr/my-repo:latest'
+               echo 'docker push dineshgngwr/my-repo:latest'
                echo 'Image pushed successfully.......'
            }
         }
