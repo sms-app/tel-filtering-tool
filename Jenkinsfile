@@ -11,5 +11,17 @@ pipeline {
 	            echo 'mvn clean install'
 	        }
         }
+        stage('Build Docker Image') {
+           steps {
+               echo 'docker build -t tel-filtering-tool'
+           }
+        }
+        stage('Tag and Push Docker Image into Dockerhub') {
+           steps {
+               echo 'docker tag tel-filtering-tool:latest dineshgngwr/tel-filtering-tool:latest'
+               echo 'docker push dineshgngwr/tel-filtering-tool:latest'
+               echo 'Image pushed successfully.......'
+           }
+        }
     }
 }
