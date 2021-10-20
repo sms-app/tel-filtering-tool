@@ -1,27 +1,28 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
+    }
     stages {
-        stage('Checkout from SCM') {
-        	steps {
-	            bat 'git clone git@github.com:sms-app/tel-filtering-tool.git'
-	        }
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+            }
         }
-        stage('Maven Unit Test case') {
-        	steps {
-	            bat 'mvn clean install'
-	        }
-        }
-        stage('Build Docker Image') {
-           steps {
-               bat 'docker build -t tel-filtering-tool .'
-           }
-        }
-        stage('Tag and Push Docker Image into Dockerhub') {
-           steps {
-               bat 'docker tag tel-filtering-tool:latest dineshgngwr/my-repo:latest'
-               bat 'docker push dineshgngwr/my-repo:latest'
-               echo 'Image pushed successfully.......'
-           }
+
+        stage ('Build') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+            }
+            post {
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
+                }
+            }
         }
     }
 }
