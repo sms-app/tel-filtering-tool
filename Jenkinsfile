@@ -1,20 +1,14 @@
 pipeline {
-    agent any
-    tools {
-        maven 'Apache Maven 3.3.9'
+  agent any stages {
+    stage('Build') {
+      steps {
+        bat 'mvn clean package'
+      }
     }
-    stages {
-       
-
-        stage ('Build') {
-            steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
-            }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
-            }
-        }
+    stage('Deploy') {
+      steps {
+        bat 'mvn deploy -DmuleDeploy'
+      }
     }
+  }
 }
