@@ -5,14 +5,15 @@ pipeline {
   }
   stages {
   
-  	stage('Clone git repository') {
+  	stage('Clean maven and clone git repository') {
 	     steps {
+	     	bat 'mvn clean'
      	    bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
      	}
 	  }
     stage('Maven build') {
       steps {
-        bat 'mvn clean install -Dmaven.test.skip=false'
+        bat 'mvn install -Dmaven.test.skip=false'
       }
     }
     stage('Delete existing docker image') {
