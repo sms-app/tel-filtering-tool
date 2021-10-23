@@ -5,19 +5,19 @@ pipeline {
   }
   stages {
   
-  	stage('Example Build') {
+  	stage('Clone git repository') {
 	     steps {
-     	    sh 'git clone https://github.com/sms-app/tel-filtering-tool.git'
+     	    bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
      	}
 	  }
     stage('Build') {
       steps {
-        sh 'mvn clean install -Dmaven.test.skip=false'
+        bat 'mvn clean install -Dmaven.test.skip=false'
       }
     }
-    stage('Dcoker Build Image') {
+    stage('Docker Build Image') {
       steps {
-        sh 'docker build -t tel-filtering-tool .'
+        bat 'docker build -t tel-filtering-tool .'
         echo 'All steps done successfullt!'
       }
     }
