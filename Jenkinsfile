@@ -4,14 +4,21 @@ pipeline {
       maven "Apache Maven 3.3.9"
   }
   stages {
+  
+  	stage('Example Build') {
+	     steps {
+     	    sh 'git clone https://github.com/sms-app/tel-filtering-tool.git'
+     	}
+	  }
     stage('Build') {
       steps {
-        bat 'mvn clean package'
+        sh 'mvn clean install -Dmaven.test.skip=false'
       }
     }
-    stage('Deploy') {
+    stage('Dcoker Build Image') {
       steps {
-        bat 'mvn deploy -DmuleDeploy'
+        sh 'docker build -t tel-filtering-tool .'
+        echo 'All steps done successfullt!'
       }
     }
   }
