@@ -1,4 +1,9 @@
 pipeline {
+	environment {
+	   registry = 'dineshgngwr/tel-filtering-tool'
+       registryCredential = 'dockerhub' 
+       dockerImage = ''  
+	}
   agent any 
   tools {
       maven "Apache Maven 3.3.9"
@@ -10,7 +15,33 @@ pipeline {
      	    bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
      	}
 	  }
-    stage('Maven build') {
+	stage('Maven build') {
+      steps {
+        bat 'mvn clean install -Dmaven.test.skip=false'
+      }
+    }
+	stage('Building docker image') {
+	   steps {
+   	    script {
+    	      dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+    	   }
+   		}
+	}
+	stage('Example Build') {
+	   steps {
+   	    	script {
+	    	       docker.withRegistry('', registryCredential){
+	    	       		dockerImage.push()
+	    	       }
+	    	   }
+   		}
+	}
+	stage('Cleaning up') {
+	   steps {
+   	    	bat 'docker rmi $registry:$BUILD_NUMBER'
+   		}
+	}
+    /*stage('Maven build') {
       steps {
         bat 'mvn clean install -Dmaven.test.skip=false'
       }
@@ -30,6 +61,6 @@ pipeline {
            bat 'docker run -p 9090:9090 tel-filtering-tool'
            echo 'All steps done successfully!'
        }
-    }
+    }*/
   }
 }
