@@ -12,6 +12,7 @@ pipeline {
   
   	stage('Clone git repository') {
 	     steps {
+	     	bat 'rm -rf tel-filtering-tool*'
      	    bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
      	}
 	  }
