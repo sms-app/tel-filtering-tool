@@ -5,6 +5,9 @@ pipeline {
        dockerImage = ''  
 	}
   agent any 
+  options {
+      skipDefaultCheckout()
+  }
   tools {
       maven "Apache Maven 3.3.9"
   }
@@ -12,8 +15,8 @@ pipeline {
   
   	stage('Clone git repository') {
 	     steps {
-	     	sh 'rm -rf tel-filtering-tool*'
-     	    bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
+     	    //bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
+     	    checkout scm
      	}
 	  }
 	stage('Maven build') {
