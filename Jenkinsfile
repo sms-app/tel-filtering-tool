@@ -12,7 +12,9 @@ pipeline {
   
   	stage('Clone git repository') {
 	     steps {
-     	    bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
+     	    script {
+    	         git SCM
+    	     }
      	}
 	  }
 	stage('Maven build') {
@@ -27,7 +29,7 @@ pipeline {
     	   }
    		}
 	}
-	stage('Example Build') {
+	stage('Pushing image to dockerhub') {
 	   steps {
    	    	script {
 	    	       docker.withRegistry('', registryCredential){
