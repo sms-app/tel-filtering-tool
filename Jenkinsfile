@@ -13,14 +13,13 @@ pipeline {
   }
   stages {
   
-  	stage('Clone git repository') {
+  	stage('Checkout from GIT repository') {
 	     steps {
-     	    //bat 'git clone https://github.com/sms-app/tel-filtering-tool.git'
-     	    cleanWs()
+     	    deleteDir()
      	    checkout scm
      	}
 	  }
-	stage('Maven build') {
+	stage('Building maven file') {
       steps {
         bat 'mvn clean install -Dmaven.test.skip=false'
       }
@@ -43,7 +42,7 @@ pipeline {
 	}
 	stage('Cleaning up') {
 	   steps {
-   	    	bat 'docker rmi $registry:$BUILD_NUMBER'
+   	    	bat "docker rmi $registry:$BUILD_NUMBER"
    		}
 	}
     /*stage('Maven build') {
